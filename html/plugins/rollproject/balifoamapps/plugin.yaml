@@ -1,0 +1,6 @@
+plugin:
+    name: 'rollproject.balifoamapps::lang.plugin.name'
+    description: 'rollproject.balifoamapps::lang.plugin.description'
+    author: Rollproject
+    icon: oc-icon-area-chart
+    homepage: ''

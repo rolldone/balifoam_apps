@@ -1,0 +1,156 @@
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+.switch input {
+  display: none;
+}
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+input:checked + .slider {
+  background-color: #2196F3;
+}
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+.slider.round:before {
+  border-radius: 50%;
+}
+.checkbox.custom {
+  display: block;
+  float: left;
+  margin-bottom: 20px;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+input[type="checkbox"].custom {
+  margin-left: 0;
+  padding: 0;
+}
+input[type=checkbox].css-checkbox {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0px;
+  position: absolute;
+  width: 1px;
+}
+input[type=checkbox].css-checkbox + label.css-label,
+input[type=checkbox].css-checkbox + label.css-label-red,
+input[type=checkbox].css-checkbox + label.css-label-yellow,
+input[type=checkbox].css-checkbox + label.css-label-blue,
+input[type=checkbox].css-checkbox + label.css-label-purple {
+  background-position: 0 0;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  display: inline-block;
+  background-size: 100%;
+  font-size: 13px;
+  height: 25px;
+  line-height: 15px;
+  opacity: 1;
+  padding-left: 22px;
+  vertical-align: middle;
+  width: 25px;
+}
+input[type=checkbox].css-checkbox + label.css-label:hover,
+input[type=checkbox].css-checkbox + label.css-label-red:hover,
+input[type=checkbox].css-checkbox + label.css-label-yellow:hover,
+input[type=checkbox].css-checkbox + label.css-label-blue:hover,
+input[type=checkbox].css-checkbox + label.css-label-purple:hover {
+  opacity: 0.5;
+}
+input[type=checkbox].css-checkbox:checked + label.css-label,
+input[type=checkbox].css-checkbox:checked + label.css-label-red,
+input[type=checkbox].css-checkbox:checked + label.css-label-yellow,
+input[type=checkbox].css-checkbox:checked + label.css-label-blue,
+input[type=checkbox].css-checkbox:checked + label.css-label-purple {
+  background-position: 0 -26px;
+}
+.css-label {
+  background-image: url(http://codeopus.net/file/blog/check1.png);
+}
+.css-label-red {
+  background-image: url(http://codeopus.net/file/blog/check2.png);
+}
+.css-label-yellow {
+  background-image: url(http://codeopus.net/file/blog/check3.png);
+}
+.css-label-blue {
+  background-image: url(http://codeopus.net/file/blog/check4.png);
+}
+.css-label-purple {
+  background-image: url(http://codeopus.net/file/blog/check5.png);
+}
+ul.tab {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+}
+/* Float the list items side by side */
+ul.tab li {
+  float: left;
+}
+/* Style the links inside the list items */
+ul.tab li a {
+  display: inline-block;
+  color: black;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  transition: 0.3s;
+  font-size: 17px;
+}
+/* Change background color of links on hover */
+ul.tab li a:hover {
+  background-color: #ddd;
+}
+/* Create an active/current tablink class */
+ul.tab li a:focus,
+.active {
+  background-color: #ccc;
+}
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
+}

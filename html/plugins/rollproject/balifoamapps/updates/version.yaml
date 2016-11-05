@@ -1,0 +1,29 @@
+1.0.1:
+    - 'Initialize plugin.'
+1.0.2:
+    - 'Created table rollproject_balifoamapps_karyawan'
+    - builder_table_create_rollproject_balifoamapps_karyawan.php
+1.0.3:
+    - 'Update table rollproject_balifoamapps_karyawan'
+    - builder_table_create_rollproject_balifoamapps_karyawan2.php
+1.0.4:
+    - 'Created table rollproject_balifoamapps_loginputpresensi'
+    - builder_table_create_rollproject_balifoamapps_loginputpresensi.php
+1.0.5:
+    - 'Updated table rollproject_balifoamapps_karyawan'
+    - builder_table_update_rollproject_balifoamapps_karyawan.php
+1.0.6:
+    - 'Updated table rollproject_balifoamapps_karyawan'
+    - builder_table_update_rollproject_balifoamapps_karyawan_2.php
+1.0.7:
+    - 'Updated table rollproject_balifoamapps_karyawan'
+    - builder_table_update_rollproject_balifoamapps_karyawan_3.php
+1.0.8:
+    - 'Updated table rollproject_balifoamapps_karyawan'
+    - builder_table_update_rollproject_balifoamapps_karyawan_4.php
+1.0.9:
+    - 'Created table rollproject_balifoamapps_presensi'
+    - builder_table_create_rollproject_balifoamapps_presensi.php
+1.0.10:
+    - 'Updated table rollproject_balifoamapps_loginputpresensi'
+    - builder_table_update_rollproject_balifoamapps_loginputpresensi.php

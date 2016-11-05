@@ -1,0 +1,1137 @@
+@import 'https://raw.githubusercontent.com/rolldone/rolless/master/less/rolless.less';
+@import 'action.less';
+@import 'colors.less';
+@import 'variables.less';
+@import 'input_files.less';
+
+//
+// reset semua nilai css 
+//
+
+html {
+  height: 100%;
+}
+
+body{
+  	min-height: 100%;
+	font-size: 12px;
+	font-weight: normal;
+	font-style: normal;
+	overflow: hidden;
+	margin: 0;
+	padding: 0;
+	color: #000;
+}
+
+table,tr,td,tbody{
+	border: none;
+	margin: 0;
+	border-spacing: 0px;
+}
+
+ul,li{
+	margin: 0;
+	padding: 0;
+
+}
+
+//
+// menyiapkan berbagai
+// macam function less
+//
+
+//
+// untuk resolusi hd ke bawah 
+// sampai mobile version 
+//
+
+.set_media_screen_max1400(){
+	.init(@init){
+
+	}
+}
+
+.set_media_screen_max1024(){
+	.init(@init){
+		.setmedia_only_max(1024px,1,{
+			@init();
+			});
+	}
+}
+
+.set_media_screen_max768(){
+	.init(@init){
+		.setmedia_only_max(768px,1,{
+			@init();
+			});
+	}
+}
+
+.set_media_screen_max425(){
+	.init(@init){
+		.setmedia_only_max(425px,1,{
+			@init();
+			});
+	}
+}
+
+//
+// resolution FHD keatas
+//
+
+.set_media_screen_min1401(){
+	.init(@init){
+
+	}
+}
+
+// 
+// lets code now!!!!!!!!!!!!
+//
+
+
+.root_wrapper{
+	.block_single.init({
+		height: 100%;
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		});
+}
+
+.dashboard_wrapper{
+	.inline_block_hor_fixed.init({
+		//
+		// custom parent code
+		//
+
+		},{
+			//
+			// custom child code
+			//
+
+			&:first-child{
+				max-width: 225px;
+				//max-width: 20%;
+				width: auto;
+				min-width: 225px;
+				background: @side_menu_color;
+				.set_media_screen_max1024.init({
+					display: none;
+					});
+			}
+
+			&:last-child{
+				//max-width: 82.7%;
+				//width: auto;
+				//width: 82.7%;
+				width: auto;
+				right: 0;
+				left: 225px;
+				position: absolute;
+				background: #f1f1f1;
+				.set_media_screen_max1024.init({
+					width: 100%;
+					left: 0;
+					});
+			}
+
+		});
+}
+
+.content_menu_bar{
+	.inline_box.init({
+		//
+		// custom parent code
+		//
+		width: 100%;
+		height: 55px;
+		background: #fff;
+		//position: fixed;
+		z-index: 1;
+		},{
+			//
+			// custom child code
+			//
+			width:50%;
+			height: 100%;
+			});
+
+	&.shadow_border_bottom{
+		-webkit-box-shadow:0px 0px 1px @border_shadow_color;
+        -moz-box-shadow:0px 0px 1px @border_shadow_color;
+ 		box-shadow:0px 0px 1px @border_shadow_color;
+	}
+}
+
+.menu_bar_list{
+	.r-menu-table.init({
+		//
+		// custom parent code
+		//
+		width: auto;
+		height: 100%;
+		},{
+			//
+			// custom child code
+			//
+			.r-menu-table.child-center-center();
+			width: auto;
+			height: 100%;
+			});
+}
+
+.menu_bar_btn{
+	.box_img({
+		//
+		// custom parent code
+		//
+		width: 50px;
+		height: 50px;
+		},{
+			//
+			// custom child code
+			//
+			>div{
+				.box_img.box_img_item();
+				background-size: 50%;
+			}
+			
+		});
+
+	.toggle{
+		background-image: url('../images/menu.png');
+	}
+}
+
+.login_wrapper{
+
+}
+
+.title_app{
+	.r-menu-table.init({
+		//
+		// custom parent code
+		//
+		width: 100%;
+		height: 55px;
+		background-color: #ff5e3a;
+		},{
+			//
+			// custom child code
+			//
+			.r-menu-table.child-center-center();
+			font-size: 2em;
+			font-weight: bold;
+			color:#fff;
+
+			});
+}
+
+.side_menu_list{
+	.block_list.init({
+		//
+		// custom parent code
+		//
+		width: 100%;
+		height: auto;
+		},{
+			//
+			// custom child code
+			//
+			width: 100%;
+			height: auto;
+			border-bottom: 1px solid #433e39;
+				
+			//
+			// optional feature
+			//
+			&.is_title{
+				&:hover{
+					background-color: @side_menu_color !important;
+				}
+			}
+
+			&:hover{
+				background-color: #433e39;
+			}
+
+		});
+}
+
+.title_menu_list{
+	.r-menu-table.init({
+		//
+		// custom parent code
+		//
+		width: 100%;
+		height: 45px;
+		},{
+			//
+			// custom child code
+			//
+			.r-menu-table.child-center-left();
+			font-size: 1.5em;
+			font-weight: normal;
+			padding-left: 10px;
+			color:#acaba7;
+			});
+}
+
+.side_menu_item{
+	.r-menu-table.init({
+		//
+		// custom parent code
+		//
+		width: 100%;
+		height: 45px;
+		cursor: pointer;
+		},{
+			//
+			// custom child code
+			//
+			.r-menu-table.child-center-left();
+			&:first-child{
+				width: 20%;
+				padding-left: 0px;
+			}
+			font-size: 1.3em;
+			font-weight: 300;
+			color:#acaba7;
+			padding-left: 10px;
+			&:last-child{
+				width: 1%;
+				padding-left: 0px;
+			}
+		});
+
+	//
+	// optional feature
+	//
+	&.activeState{
+		background-color: #433e39;
+	}
+}
+
+//
+// root -|-
+// status component
+// 
+.icn_menu{
+	.box_img({
+		width: 30px;
+		height: 30px;
+		float: right;
+		},{
+			>*{
+				.box_img.box_img_item();
+				background-size: 60%;
+			}
+		});
+
+	&.s20{
+		width: 20px;
+		height: 20px;
+		>*{
+			background-size: 80%;
+		}
+	}
+
+
+	&.s15{
+		width: 15px;
+		height: 15px;
+		>*{
+			background-size: 80%;
+		}
+	}
+
+	.speed-meter{
+		background-image: url('../images/speed-meter.png');
+	}
+
+	.right_arrow{
+		background-image: url('../images/right-arrow.png');
+	}
+
+	.search{
+		background-image: url('../images/magnifying-glass.png');
+	}
+
+	.add{
+		background-image: url('../images/plus.png');
+	}
+
+	.trash{
+		background-image: url('../images/delete.png');
+	}
+
+	.arrow_bottom{
+		background-image: url('../images/down-arrow.png');
+	}
+
+	.employee{
+		background-image: url('../images/puzzle.svg');
+	}
+
+	.presence{
+		background-image: url('../images/presence-indicator.svg');
+	}
+
+	.calendar{
+		background-image: url('../images/calendar.svg');
+	}
+
+	.excel{
+		background-image: url('../images/excel.svg');
+	}
+}
+
+//
+// root .dashboard_wrapper > div
+// status parent
+// bagian content data 
+//
+.content_wrapper{
+	.just_absolute.init({
+		top: 55px;
+		height: auto;
+		padding: 16px;
+		});
+}
+
+//
+// root .content_wrapper
+// status parent
+// hanya untuk khusus form 
+//
+.form_wrapper{
+	.just_inline.init({
+		min-height: 300px;
+		height: auto;
+		background-color: #fff;
+
+		});
+
+	.set_card({
+		.card2();
+		});
+}
+
+//
+// root .form_wrapper
+// status parent
+// khusus untuk form
+//
+
+.form_content{
+	.just_inline.init({
+		width: 100%;
+		height: auto;
+		margin-bottom: @form_bottom_size;
+
+		})
+}
+
+//
+// root .content_wrapper
+// status parent
+// block layout untuk berbagai macam
+// component didalamnya 
+// pros => kill padding parent
+//
+.block_wrapper{
+	.just_absolute.init({
+		background-color: #000;
+		bottom: 300px;
+		padding: 16px;
+		});
+
+	.right{
+		float: right;
+	}
+
+	.left{
+		float: left;
+	}
+
+	.full_width{
+		width: 100%;
+	}
+}
+
+//
+// root -|-
+// status component
+// use for button 
+//
+.btn_action{
+	.r-menu-table.init({
+		width: auto;
+		height: 38px;
+		margin-bottom: 0;
+		border-radius: 2px;
+		float: left;
+		margin-right: 10px;
+		.set_card({
+			.card1();
+			.card_hover();
+			});
+		},{
+			.r-menu-table.child-center-center();
+			height: auto;
+			});
+
+	
+	span{
+		display: inline-block;
+		//padding-top: 1px;
+		padding-left: 5px;
+	}
+
+	//
+	// support feature
+	//
+	&.no_border{
+		background-color: transparent;
+		border-color: transparent;
+		color:#000;
+		border:none;	
+		.no_card();
+		margin-right: 0px;
+	}
+	&.no_margin_right{
+		margin-right: 0px;
+	}
+}
+
+.red_flat{
+	background-color: #e74c3c !important;
+	border-color: #e74c3c !important;
+}
+
+.green_flat{
+	background-color: #1abc9c !important;
+	border-color: #1abc9c !important;
+}
+
+.red_border{
+
+}
+
+.wet_aspalt{
+	background-color: #34495e !important;
+	border-color: #34495e !important;
+}
+
+
+//
+// root -/-
+// status component
+// use for search table
+//
+
+.search_table{
+	.r-menu-table.init({
+		width: 100%;
+		height: 100%;
+		border: 1px #d1d1d1 solid;
+		},{
+			.r-menu-table.child-center-right();
+			&:last-child{
+				width: 1%;
+			}
+		});
+}
+
+.search_component{
+	border-radius: 0px !important;
+	border:none !important;
+	border-color: transparent;
+}
+
+//
+// root -/-
+// status component
+// use for option table
+//
+
+.option_wrapper{
+	.r-menu-table.init({
+		width: auto;
+		height: 100%;
+		float: right;
+		},{
+			.r-menu-table.child-center-center();
+			padding-left: 5px;
+			});
+}
+
+//
+// root .option_wrapper
+// status component
+// just a component
+//
+
+.datepicker_wrap{
+	.r-menu-table.init({
+		width: auto;
+		height: 100%;
+		border: 1px #d1d1d1 solid;
+		},{
+			.r-menu-table.child-center-center();
+			.init_child();
+			});
+
+	.init_child(){
+		input[type=text]{
+			width: 150px;
+			height: 100%;
+			border-radius: 0px !important;
+			border:none !important;
+			border-color: transparent;
+			margin-bottom: 0px;
+		}
+	}
+}
+
+//
+// root .content_wrapper
+// status parent
+// hanya untuk khusus table
+//
+.table_wrapper{
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-bottom: 10px;
+	padding-top: 10px;
+	background-color: #fff;
+	max-width: 1360px;
+	
+	//set material border shadow 
+	.set_card({
+		.card2();
+		});
+}
+
+//
+// root .table_wrapper
+// status component
+//
+.table_menu_bar{
+	.inline_box.init({
+		// custom parent code
+		width: 100%;
+		height: 50px;
+		padding-bottom: 10px;
+		border-bottom: 0.1rem solid #d1d1d1;
+		},{
+			// custom child code
+			width: 50%;
+			height: 100%;
+			margin-bottom: 10px;
+			});
+}
+
+//
+// root .table_wrapper 
+// status component
+//
+.table_content{
+	th{
+		border-bottom: 1px solid @border_shadow_color;
+	}
+
+	tr{
+		//
+		// optional feature
+		//
+		&.cloud{
+			background-color: #ecf0f1;
+		}
+	}
+	
+	td{
+		border-bottom: 1px solid #bdc3c7;
+	}
+}
+
+//
+// root .table_wrapper
+// status component
+//
+.pag_table{
+	.r-menu-table.init({
+		.reset_ul_li();
+		width: auto;
+		height: 45px;
+		margin-right: 0;
+		margin-left: auto;
+		},{
+			.r-menu-table.child-center-center();
+			position: relative;
+			width: 23px;
+			height: auto;
+			});
+	
+	span{
+		display: inline-block;
+		color:#7f8c8d;
+		font-size: 1.2em;
+		cursor: pointer;
+		&:hover{
+			color: #1abc9c;
+			font-weight: bold;
+		}
+		&.aktifkan{
+			color: #1abc9c;
+			font-weight: bold;
+		}
+	}
+}
+
+//
+// parent .form_wrapper
+// status component
+// title setiap form 
+//
+
+.title_form{
+	.inline_box.init({
+		width: 100%;
+		height: 44px;
+		background-color: @title_form_color;
+		border-bottom: @border_title_form_color 1px solid;
+		},{
+			width: auto;
+			height: 100%;
+		});
+}
+
+//
+// parent .title_form
+// status component
+// hanya untuk back link ke form sebelumnya
+//
+
+.link_title{
+	.r-menu-table.init({
+		width: auto;
+		height: 100%;
+		position: relative;
+		background-color: @title_form_color_active;
+		color: #fff;
+		padding-right: 10px;
+		padding-left: 10px;
+		cursor: pointer;
+		&:hover{
+			color: #fff;
+		}
+		},{
+			.r-menu-table.child-center-center();
+			width: auto;
+			height: 100%;
+			font-size: 1.em;
+			
+			});
+
+	&:after{
+		content: ' ';
+		position: absolute;
+		top: 0;
+	    right: -15px;
+	    z-index: 20;
+	    border-top: 22.5px solid transparent;
+	    border-bottom: 22.5px solid transparent;
+	    border-left: 15px solid @title_form_color_active;
+	}
+}
+
+//
+// parent .title_form
+// status component
+// hanya untuk pembatas icon 
+// back link ke form sebelumnya
+//
+
+.space_title{
+	.box_img({
+		width: 10px;
+		height: 100%;
+		},{
+			>*{
+				.box_img.box_img_item();
+				background-size: 50%;
+			}
+			});
+}
+
+//
+// parent .title_form
+// status component
+// 
+
+.title_name_form{
+	.r-menu-table.init({
+		width: auto;
+		height: 100%;
+		},{
+			.r-menu-table.child-center-center();
+			height: 100%;
+			padding-left: 24px;
+			white-space: nowrap;
+			color: #000;
+			});
+}
+
+//
+// parent .form_wrapper
+// status component
+//
+
+.bottom_form{
+	position: absolute;
+	bottom: 0;
+	top: auto;
+	height: @form_bottom_size;
+	width: 100%;
+	margin: auto;
+	left: 0;
+	right: 0;
+	background-color: @title_form_color;
+}
+
+//
+// parent .form_wrapper
+// status component
+//
+
+.form_action{
+	.r-menu-table.init({
+		.reset_ul_li();
+		height: 100%;
+		width: auto;
+		},{
+			&:first-child{
+				padding-left: 12px;
+			}
+			&:last-child{
+				width: 100%;
+			}
+			.r-menu-table.child-center-center();
+			width: 1%;
+			height: 100%;
+			//padding-bottom: 12px;
+			//padding-top: 12px;
+			});
+}
+
+//
+// parent .form_action
+// status component
+//
+
+.text_action{
+	font-size: 1em;
+	font-weight: bold;
+	display: inline-block;
+	padding-left: 12px;
+	&.link{
+		font-size: 1.2em;
+		font-weight: normal;
+		color: #000;
+		cursor: pointer;
+	}
+}
+
+//
+// root .form_content
+// status component
+// 
+
+.form_pos_form{
+	.inline_box.init({
+		width: 100%;
+		height: 100%;
+		},{
+			.init_child();
+		});
+
+	.init_child(){
+		width: 50%;
+		min-height: 50px;
+		height: auto;
+		.set_media_screen_max768.init({
+			width: 100%;
+			float: left;
+		});
+
+		&.left{
+			float: left;
+		}
+
+		&.right{
+			float: right;
+			clear: right;
+		}
+
+		&.full{
+			width: 100%;
+		}
+
+		&.full_right{
+			width: 100%;
+			>*{
+				float: right;
+				width: 50%;
+				.set_media_screen_max768.init({
+					width: 100%;
+					float: left;
+				});
+			}
+		}
+	}
+}
+
+//
+// root .form_pos_form
+// status component
+//
+
+.input_box{
+	.init_child21(){
+		&.title{
+			font-size: 1em;
+			display: inline-block;
+		}
+		/*&input[type="text"]{
+			width: 100%;
+			height: 40px;
+			display: none;
+		}*/
+		&.input_form{
+			width: 100%;
+			height: 40px;
+		}
+	}
+	.inline_block_cell.init({
+		width: 100%;
+		height: auto;
+		padding: 10px;
+		padding-bottom: 0px;
+		text-align: left;
+		},{
+			.init_child21();
+			});
+}
+
+//
+// root .form_pos_form
+// status component
+//
+
+.message_box{
+	&.show{
+		display: inline-block;
+	}
+	.init_child21(){
+		&.title{
+			font-size: 1.2em;
+			display: inline-block;
+		}
+		&.message_text{
+			width: 100%;
+			height: auto;
+			display: inline-block;
+			font-size: 1em;
+		}
+		&.error{
+			color: #e74c3c;
+			font-weight: bold;
+		}
+		&.success{
+			color: #1abc9c;
+			font-weight: bold;
+		}
+		&.waiting{
+			color: #3498db;
+			font-weight: bold;
+		}
+	}
+	.inline_block_cell.init({
+		width: 100%;
+		height: auto;
+		padding: 10px;
+		padding-bottom: 0px;
+		text-align: left;
+		display: none;
+		},{
+			.init_child21();
+			});
+}
+
+//
+// root .form_pos_form
+// status component
+//
+
+.dropdown_box{
+	.inline_block_cell.init({
+		width: 100%;
+		height: auto;
+		padding: 10px;
+		padding-bottom: 0px;
+		text-align: left;
+		},{
+			.init_child();
+			});
+
+	.init_child(){
+		&.title{
+			font-size: 1em;
+			display: inline-block;
+		}
+	}
+}
+
+//
+// root .dropdown_box
+// status part component
+//
+
+.dropdown_item{
+	.inline_block_cell.init({
+		width: 100%;
+		height: 40px;
+		&:hover{
+			>*{
+				display: table-cell;
+			}
+		}
+		},{
+			display: none;
+			z-index: 3;
+			width: 100%;
+			height: 100%;
+			position: relative;
+			&:first-child{
+				display: table-cell;
+				border:solid #d1d1d1 0.1rem;
+				padding-left: 10px;
+			}
+			.init_child();
+		});
+
+	.init_child(){
+		.value_dropdown{
+			.r-menu-table.init({
+				width: 100%;
+				height: 100%;
+				},{
+					.r-menu-table.child-center-left();
+					&:last-child{
+						width: 1%;
+						padding-right: 10px;
+					}
+					&.value{
+						font-size: 1.2em;
+					}
+				});
+		}
+		.dropdown_search{
+			background-color: #fff;
+			height: 100%;
+			font-size: 1.2em;
+			border-radius: 0px;
+			border-color: #fff;
+			border-bottom:0.1rem solid #d1d1d1;
+			&:focus{
+				border-radius: 0px;
+			}
+		}
+	}
+}
+
+//
+// root .dropdown_item
+// status part component
+//
+
+.list_dropdown{
+	.inline_block_cell.init({
+		width: 100%;
+		background-color: #fff;
+		},{
+			width: 100%;
+			height: auto;
+			padding-left: 10px;
+			padding-top: 10px;
+			padding-bottom: 10px;
+			border-bottom: solid #d1d1d1 0.1rem;
+			.init_child();
+			});
+
+	.init_child(){
+		span{
+			font-size: 1.2em;
+			display: inline-block;
+		}
+	}
+}
+
+//
+// root .form_pos_form
+// status component
+//
+
+.toggle_box{
+	.inline_block_cell.init({
+		width: 100%;
+		height: auto;
+		padding: 10px;
+		padding-bottom: 0px;
+		text-align: left;
+		},{
+			.init_child();
+			});
+
+	.init_child(){
+		&.title{
+			font-size: 1em;
+			display: inline-block;
+		}
+	}
+}
+
+//
+// root .form_pos_form
+// status component
+//
+
+.check_box{
+	.r-menu-table.init({
+		width: 100%;
+		height:auto;
+		margin-left: 10px;
+		},{
+			.r-menu-table.child-center-left();
+			&:first-child{
+				width: 1%;
+			}
+			&:last-child{
+				padding-left: 10px;
+			}
+			height: 100%;
+			.init_child();
+		});
+
+	.init_child(){
+		.title{
+			font-size: 1.2em;
+			font-style: italic;
+		}
+	}
+}
+
