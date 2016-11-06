@@ -4,6 +4,7 @@ use Cms\Classes\ComponentBase;
 use Excel;
 use Rollproject\BalifoamApps\Models\Karyawan;
 
+
 class KaryawanComponent extends ComponentBase
 {
 
@@ -36,14 +37,50 @@ class KaryawanComponent extends ComponentBase
                 case "fetch-all":
                     $this->fetchAll();
                     break;
+                case "fetch-detail-karyawan":
+                    $this->fetchDetailKaryawan();
+                    break;
                 case "count-total":
                     $this->getTotal();
+                    break;
+                case "search-karyawan":
+                    $this->searchKaryawan($params[2],$params[3]);
                     break;
             }
         }
     }
 
+    public function searchKaryawan($take,$skip){
+        $query = $_POST['whattext'];
+        $users = Karyawan::search($query)->take($take)->skip($take*($skip-1))->get();
+        $jsondata = [
+            'success_place' => 'searchKaryawan()',
+            'status' => 'success',
+            'variable' => ['query'=>$query],
+            'message' => $users
+        ];
+        echo json_encode($jsondata,true);
+    }
+
+    public function fetchDetailKaryawan(){
+        $kar = Karyawan::find($_POST['id']);
+        $jsondata = [
+            'success_place' => 'fetchDetailKaryawan()',
+            'status' => 'success',
+            'variable' => "$kar",
+            'message' => $kar
+        ];
+        echo json_encode($jsondata,true);
+    }
+
     public function getTotal(){
+        if(isset($_GET['is_search'])){
+            $querynya = $_GET['query'];
+            $kar = Karyawan::search($querynya)->get();
+            $kar = count($kar);
+            echo $kar;
+            return;
+        }
         $kar = new Karyawan();
         $kar = $kar->count();
         echo $kar;

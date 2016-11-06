@@ -1,4 +1,4 @@
-import React from "react";
+import React, { PropTypes } from "react";
 import ReactDOM from 'react-dom';
 import {Router,Route, IndexRoute, useRouterHistory, hashHistory, browserHistory} from "react-router";
 import { createHashHistory } from 'history';
@@ -22,7 +22,7 @@ import presensi_store from './stores/presensi_store.jsx';
 import Side_menu_component from './components/side_menu.jsx'; 
 import {Front_user,Front_user_form} from './components/front_user.jsx'; 
 import {Category_list, Category_form} from './components/Category_module.jsx';
-import {karyawan_list,karyawan_form} from './components/karyawan_module.jsx';
+import {karyawan_list,karyawan_form,karyawan_info} from './components/karyawan_module.jsx';
 import {presensi_list,presensi_form} from './components/presensi_module.jsx';
 
 //
@@ -138,6 +138,26 @@ class Login extends React.Component{
 
 const appHistory = useRouterHistory(createHashHistory)({ queryKey: false })
 const app = document.getElementById('app');
+
+class RouteRedirect extends React.Component{
+		static contextTypes = {
+		    router: PropTypes.object
+	  	};
+
+		constructor(props,context) {
+			super(props,context);
+			//console.log(this.props);
+			this.context.router.replace(this.props.route.redirect);
+		}
+
+		render(){
+			return(
+				<div>Redirecting.....</div>
+				);
+		}
+
+	}
+
 const reactRouter = ((
 
 	//
@@ -147,11 +167,11 @@ const reactRouter = ((
 	// contoh <Router>
 	// sumbernya ada di https://github.com/reactjs/react-router/blob/master/docs/guides/Histories.md
 	//
-	
+
 	<Router history={define_history}>
-		<Route path="/" component={Main_layout}></Route>
+		<Route path="/" component={RouteRedirect} redirect="/main/karyawan/list" />
 		<Route path="/main" component={Main_layout}>
-			
+		
 			//
 			// direct lansung ke child punya 
 			// route segment seperti misal front-user
@@ -168,15 +188,19 @@ const reactRouter = ((
 			<Route path="karyawan">
 				<Route path="list" store={karyawan_store} component={karyawan_list} />
 				<Route path="form" component={karyawan_form}/>
+				<Route path="info" store={karyawan_store} component={karyawan_info} />
 			</Route>
 			<Route path="presensi">
 				<Route path="list" store={presensi_store} component={presensi_list} />
 				<Route path="form" component={presensi_form}/>
 			</Route>
+			<Route path="/login" component={Login}></Route>
 		</Route>
-		<Route path="/login" component={Login}></Route>
+		
 	</Router>
 	))
+
+	
 
 
 ReactDOM.render(reactRouter,app);

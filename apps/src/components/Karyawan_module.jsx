@@ -3,6 +3,7 @@ import { observer } from 'mobx-react';
 import { browserHistory } from 'react-router';
 import { Link } from 'react-router';
 import { route_history } from '../helpers/define_route.jsx';
+import {debounce} from 'throttle-debounce';
 /*
  * call jquery library
  */
@@ -23,13 +24,18 @@ import {
 import {
 	uploadFileService,
 	fetchDataKaryawan,
-	totalFetchKaryawan
+	totalFetchKaryawan,
+	fetchDetailKaryawan,
+	searchKaryawan
 } from '../services/httpServices.jsx';
 
 var dateFormat = require('../helpers/date_format.js');
 
 @observer
 export class karyawan_list extends React.Component{
+	static contextTypes = {
+	    router: PropTypes.object
+	  };
 	constructor(props){
 		super(props);
 		this.state = {
@@ -38,6 +44,52 @@ export class karyawan_list extends React.Component{
 		}
 		this.totalPagination = this.totalPagination.bind(this);
 		this.changePagination = this.changePagination.bind(this);
+		this.openDetailInfo = this.openDetailInfo.bind(this);
+		this.searchDataKaryawan = this.searchDataKaryawan.bind(this);
+		this.totalSearchPagination = this.totalSearchPagination.bind(this);
+		this.callAjax = debounce(200, this.callAjax);
+	}
+
+	callAjax(value){
+		var vm = this;
+		console.log(value);
+		definePagination.setNumber = 1;
+		this.setState({
+			paginateState:definePagination
+		});
+		getSearchKaryawan(value,vm.state.paginateState.totalPerPage,vm.state.paginateState.setNumber,function(data){
+			data = data.message;
+			console.log(data);
+			vm.props.route.store.karyawans = [];
+			for(var a = 0; a < data.length; a++){
+				vm.props.route.store.saveKaryawan(data[a]);
+			}
+			vm.setState({listKaryawan : vm.props.route.store.karyawans});
+		});
+		this.totalSearchPagination(value);
+	}
+	searchDataKaryawan(event){
+		//event.persist();
+		this.callAjax(event.target.value);
+		
+	}
+
+	openDetailInfo(whatId){
+		/*route_history().push({
+			pathname : '/main/karyawan/info',
+			query: { id: whatId },
+			state : {
+				id : whatId
+			}
+		});*/
+		this.context.router.push({
+			pathname : '/main/karyawan/info',
+			query: { id: whatId },
+			state : {
+				id : whatId
+			}
+		});
+		//console.log('ggg',whatId);
 	}
 
 	componentDidMount() {
@@ -51,6 +103,26 @@ export class karyawan_list extends React.Component{
 			vm.setState({listKaryawan : vm.props.route.store.karyawans});
 		});
 		this.totalPagination();
+	}
+
+	totalSearchPagination(whatText){
+		var vm = this;
+		getSearchTotalKaryawan(whatText,function(data){
+			console.log('totalnya',data);
+			definePagination.pageTotal = data;
+			var mod = definePagination.pageTotal % definePagination.totalPerPage;
+			definePagination.diff = (definePagination.pageTotal / definePagination.totalPerPage);
+			//console.log('aaa',definePagination.diff);
+			if(definePagination.diff % 1 == 0){
+				definePagination.diff = definePagination.diff-1;
+			}else{
+				definePagination.diff = Math.floor(definePagination.diff);
+			}
+			
+			vm.setState({
+				paginateState : definePagination
+			});
+		});
 	}
 
 	totalPagination(){
@@ -109,7 +181,7 @@ export class karyawan_list extends React.Component{
 					</div>
 					<div>
 						<div className="search_table">
-							<input type="text" className="search_component" />
+							<input type="text" onKeyUp={vm.searchDataKaryawan.bind(vm)} className="search_component" />
 							<div >
 								<div className="icn_menu">
 									<div className="search"></div>
@@ -133,7 +205,7 @@ export class karyawan_list extends React.Component{
 						  	for(var a=0; a < vm.karyawans.length; a++){
 						  		var ll = vm.karyawans[a];
 						  		tt.push(
-					  				<tr key={a} className={a % 2 == 0 ? "data_table":"data_table cloud"}>
+					  				<tr onClick={vm.openDetailInfo.bind(vm,ll.id)} key={a} className={a % 2 == 0 ? "data_table":"data_table cloud"}>
 								    	<td>{ll.nik}</td>
 								    	<td>{ll.nama_karyawan}</td>
 								    	<td>{ll.alias}</td>
@@ -141,9 +213,7 @@ export class karyawan_list extends React.Component{
 								    	<td>{ll.departemen}</td>
 								    	<td>{ll.jabatan}</td>
 								  	</tr>
-
 						  			)
-
 						  	}
 						  	return tt;
 						  })()}
@@ -303,6 +373,133 @@ export class karyawan_form extends React.Component{
 	}
 }
 
+export class karyawan_info extends React.Component{
+	static contextTypes = {
+	    router: PropTypes.object
+	  };
+
+ 	constructor(props,context) {
+		super(props,context);
+		this.state={
+			karyawan:detailKaryawan
+		}
+		this.backToList = this.backToList.bind(this);
+ 	}
+
+ 	backToList(){
+ 		route_history().goBack();
+ 	}
+
+ 	componentDidMount() {
+ 		var vm = this;
+ 		//console.log(this.props)
+ 		openDetailKaryawan(this.props.location.query.id,function(data){
+ 			//console.log('detail_karyawan',data);
+ 			vm.props.route.store.saveDetailKaryawan(data);
+ 			
+ 			vm.setState({
+ 				karyawan: vm.props.route.store.detailKaryawan
+ 			});
+
+ 		});
+ 	}	
+
+ 	render(){
+ 		var vm = this;
+ 		var karyawan = this.state.karyawan;
+ 		console.log('aaa',karyawan);
+ 		return(
+ 			<div className="form_wrapper full_width shadow_border">
+				<ul className="title_form">
+					<li>
+						<a onClick={this.backToList} className="link_title">
+							<span>List Karyawan</span>
+						</a>
+					</li>
+					<li>
+						<a className="title_name_form">
+							<span>Info Karyawan</span>
+						</a>
+					</li>
+				</ul>
+				<div className="form_content">
+							<div className="form_pos_form">
+								<div className="left">
+									<Input_text1 
+										value_text={karyawan.nik}
+										title_text="NIK Karyawan"
+										read_only={true}
+									/>
+								</div>
+								<div className="right">
+									<Input_text1 
+										title_text="Cabang"
+										value_text={karyawan.cabang}
+										read_only={true}
+									/>
+								</div>
+								<div className="left">
+									<Input_text1 
+										title_text="Nama Karyawan"
+										value_text={karyawan.nama_karyawan}
+										read_only={true}
+									/>
+								</div>
+								<div className="right">
+									<Input_text1 
+										title_text="Nama Alias"
+										value_text={karyawan.alias}
+										read_only={true}
+									/>
+								</div>
+								<div className="left">
+									<Input_text1 
+										title_text="Jabatan"
+										value_text={karyawan.jabatan}
+										read_only={true}
+									/>
+								</div>
+								<div className="right">
+									<Input_text1 
+										title_text="Jenis Kelamin"
+										value_text={karyawan.jenis_kelamin}
+										read_only={true}
+									/>
+								</div>
+								<div className="left">
+									<Input_text1 
+										title_text="Masih Aktif?"
+										value_text={karyawan.status}
+										read_only={true}
+									/>
+								</div>
+								<div className="right">
+									<Input_text1 
+										title_text="Status Pekerjaan"
+										value_text={karyawan.status_kerja}
+										read_only={true}
+									/>
+								</div>
+							</div>
+						</div>
+				<div className="bottom_form">
+					<ul className="form_action">
+						<li>
+							<button id="btn_save" className="btn_action wet_aspalt" onClick={vm.backToList.bind(vm)}>
+								<div>
+									<span>Back To Karyawan Lists</span>
+								</div>
+							</button>
+						</li>
+						
+						<li></li>
+					</ul>
+				</div>
+			</div>	
+		)
+ 	}
+}
+
 /*
  * bussiness process 
  */
@@ -315,8 +512,32 @@ var definePagination = {
 	setNumber:1
 }
 
+var isTypeRunning = false;
+
+var detailKaryawan = {};
+
 var getTotalKaryawan = function(total){
-	totalFetchKaryawan(function(data){
+	totalFetchKaryawan({},function(data){
+		total(data);
+	});
+}
+
+var getSearchKaryawan = function(whatText,take,skip,callback){
+	var formData = new FormData();
+	formData.append('whattext',whatText);
+	searchKaryawan(formData,take,skip,function(data){
+		console.log('search',data);
+		callback(data);
+	});
+}
+
+var getSearchTotalKaryawan = function(whatText,total){
+	var isSearch = {
+		is_search : true,
+		query: whatText
+	}
+	totalFetchKaryawan(isSearch,function(data){
+		console.log('pagiSearchTotal',data)
 		total(data);
 	});
 }
@@ -346,6 +567,18 @@ var storeDataKaryawan = function(take,skip,callback){
 			case "error":
 				callback(data);
 			break;
+		}
+	});
+}
+
+var openDetailKaryawan = function(id,callback){
+	var formData = new FormData();
+	formData.append('id',id);
+	fetchDetailKaryawan(formData,function(data){
+		if(data.status == "success"){
+			callback(data.message);
+		}else{
+			callback(data.message);
 		}
 	});
 }

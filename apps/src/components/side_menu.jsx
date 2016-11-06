@@ -1,19 +1,51 @@
-import React from "react";
+import React,  { PropTypes } from "react";
 import {
-	Link
+	Link,
+	IndexLink
 } from 'react-router';
 
 var jquery = require('jquery');
 
 export default class Side_menu extends React.Component{
-
+	static contextTypes = {
+	    router: PropTypes.object
+	  };
 	constructor(props){
 		super(props);
+		this.state = {
+			data_menu : this.props.parse_side_data
+		}
 		this.handleRemoteClick = this.handleRemoteClick.bind(this);
+		this.handlerRouteActive = this.handlerRouteActive.bind(this);
 	}
 
 	handleRemoteClick(){
 		sideMenuBar();
+	}
+
+	handlerRouteActive(whatRoute){
+		this.handleRemoteClick();
+		var queryPath = "";
+		var isActive = false;
+		// batas path
+		var batas = 3; 
+		var kel = 0;
+		try{
+			whatRoute.split("/").slice(0).forEach(function(elem){
+	        	// queryPath[elem] = queryPath[elem] || {}; 
+		        //queryPath += queryPath[elem];
+		        if(kel != batas){
+					queryPath += elem+"/";
+		        }else{
+		        	throw BreakException
+		        }
+		        kel++;
+		    });
+		}catch(Ex){
+			//console.log('ttt',);
+		}
+		console.log('ttt',this.context.router.isActive(queryPath)+" - "+queryPath);
+		return this.context.router.isActive(queryPath);
 	}
 
 	render(){
@@ -24,7 +56,9 @@ export default class Side_menu extends React.Component{
 		// implementasikan for entah kenapa begitu
 		//
 
-		var tt = this.data;
+		var tt = this.state.data_menu;
+		
+		//this.context.router.isActive(to, onlyActiveOnIndex);
 		var vm = this;
 		return(
 			<ul className="side_menu_list">
@@ -42,7 +76,7 @@ export default class Side_menu extends React.Component{
 						for(var b = 0 ; b < tt[a].menu_data.length ; b++){
 							tar.push(
 								<li key={a+'-'+b} >
-									<Link className="side_menu_item" onClick={vm.handleRemoteClick} activeClassName={"activeState"} to={'/main/'+tt[a].menu_data[b].link}>
+									<Link to={"/main"+tt[a].menu_data[b].link} className={vm.handlerRouteActive('/main'+tt[a].menu_data[b].link) == true ? "side_menu_item activeState" : "side_menu_item"} >
 										<div>
 											<div className="icn_menu">
 												<div className={tt[a].menu_data[b].icn}></div>
@@ -66,6 +100,23 @@ export default class Side_menu extends React.Component{
 			</ul>
 		);
 	}
+}
+
+
+class NavItem extends React.Component {
+  render () {
+    const { router } = this.context
+    const { index, onlyActiveOnIndex, to, children, ...props } = this.props
+
+    const isActive = router.isActive(to, onlyActiveOnIndex)
+    const LinkComponent = index ? Link : IndexLink
+
+    return (
+      <li className={isActive ? 'active' : ''}>
+        <LinkComponent {...props}>{children}</LinkComponent>
+      </li>
+    )
+  }
 }
 
 var sideMenuBar = function(){

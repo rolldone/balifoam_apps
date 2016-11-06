@@ -54,13 +54,19 @@ class Karyawan{
 
 class KaryawanStore{
 	@observable karyawans;
+	@observable detailKaryawan;
 
 	constructor() {
 		this.karyawans = [];
+		this.detalKaryawan = {};
 	}
 
 	saveKaryawan(value){
 		this.karyawans.push(new Karyawan(value));
+	}
+
+	saveDetailKaryawan(value){
+		this.detailKaryawan = new Karyawan(value);
 	}
 }
 

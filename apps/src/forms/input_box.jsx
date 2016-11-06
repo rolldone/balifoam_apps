@@ -5,14 +5,19 @@ export class Input_text1 extends React.Component{
 		var id = this.props.id || 'Set Your Id';
 		var title_text = this.props.title_text || 'Set Your Title Text';
 		var placeholder = this.props.place_holder || 'Set Your PlaceHolder';
+		var value_text = this.props.value_text || '';
+		var read_only = this.props.read_only == true ? 'readOnly' : '';
+		var default_value = this.props.default_value || null;
 		return(
 			<div className="input_box">
 				<span className="title">{title_text}</span>
 				<input 
 					className="input_form"
 					id={id}
+					value={value_text}
 					type="text"  
-					placeholder={placeholder}/>
+					placeholder={placeholder}
+					readOnly={read_only}/>
 			</div>
 		);
 	}
@@ -24,14 +29,20 @@ export class Input_email1 extends React.Component{
 		var idnya = this.props.id || 'Set Your Id';
 		var placeholder = this.props.place_holder || 'Set Your PlaceHolder';
 		var title_text = this.props.title_text || 'Set Your Title Text';
+		var read_only = this.props.read_only == true ? 'readOnly' : '';
+		var default_value = this.props.default_value || '';
 		return(
 			<div className="input_box">
 				<span className="title">{title_text}</span>
 				<input
 					id={idnya}
+					defaultValue={default_value}
 					className="input_form"
 					type="email"
-					placeholder={placeholder}/>
+					placeholder={placeholder} 
+					readOnly={read_only}
+					 />
+					}
 			</div>
 		);
 	}
@@ -48,8 +59,10 @@ export class Input_number1 extends React.Component{
 				<input
 					className="input_form"
 					id={id}
+					defaultValue={default_value}
 					type="email"
-					placeholder={placeholder}/>
+					placeholder={placeholder}
+					readOnly={read_only}/>
 			</div>
 		);
 	}

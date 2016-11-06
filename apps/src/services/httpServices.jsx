@@ -10,8 +10,16 @@ import {staticVariable} from './helperServices.jsx';
 
  var jquery = require('jquery');
 
-export const totalFetchKaryawan = function(callback){
+export const totalFetchKaryawan = function(postdata,callback){
 	console.log('call fetch data karyawan');
+	var url = staticVariable.url_restapi+"/karyawan/count-total";
+	try{
+		if(postdata.is_search == true){
+			url += '?is_search='+postdata.is_search+'&query='+postdata.query;
+		}
+	}catch(ex){
+
+	}
 	jquery.ajax({
 		type:"GET",
 	    /*
@@ -19,7 +27,7 @@ export const totalFetchKaryawan = function(callback){
 	     */
 		processData:false,
 		contentType:false,
-		url:staticVariable.url_restapi+"/karyawan/count-total",
+		url:url,
 		success:function(data){
 			callback(data);
 		},
@@ -51,6 +59,27 @@ export const uploadFileService = function(postdata,callback){
 	});
 }
 
+export const searchKaryawan = function(postData,take,skip,callback){
+	console.log('call searchKaryawan!');
+	jquery.ajax({
+		type:"POST",
+		data:postData,
+	    /*
+	     * contentType and processData must set false for upload file
+	     */
+		processData:false,
+		contentType:false,
+		url:staticVariable.url_restapi+"/karyawan/search-karyawan/"+take+"/"+skip,
+		success:function(data){
+			callback(data);
+		},
+		error:function(data){
+			callback(data);
+		},
+		dataType: 'json'
+	})
+}
+
 export const fetchDataKaryawan = function(postdata,take,skip,callback){
 	console.log('call fetch data karyawan');
 	jquery.ajax({
@@ -62,6 +91,27 @@ export const fetchDataKaryawan = function(postdata,take,skip,callback){
 		processData:false,
 		contentType:false,
 		url:staticVariable.url_restapi+"/karyawan/fetch-data-karyawan/0/"+take+"/"+skip,
+		success:function(data){
+			callback(data);
+		},
+		error:function(data){
+			callback(data);
+		},
+		dataType: 'json'
+	})
+}
+
+export const fetchDetailKaryawan = function(postData,callback){
+	console.log('call fetch detail karyawan!');
+	jquery.ajax({
+		type:'POST',
+		data:postData,
+		/*
+	     * contentType and processData must set false for upload file
+	     */
+		processData:false,
+		contentType:false,
+		url:staticVariable.url_restapi+"/karyawan/fetch-detail-karyawan",
 		success:function(data){
 			callback(data);
 		},
