@@ -60,7 +60,7 @@ if(debug){
 // ---
 
 //
-// ini adalah devTools 
+// ini adalah devTools punya redux
 // enable devTools in development environment
 var devFlagPlugin = new webpack.DefinePlugin({  
   __DEV__: JSON.stringify(JSON.parse(process.env.DEBUG || 'false'))
@@ -126,8 +126,10 @@ module.exports = {
   plugins:[
     load_CopyWebpackPlugin(),
     load_watchingPlugin(),
-    devFlagPlugin,
-    load_jqueryLibrary()
+    //devFlagPlugin,
+    load_UglifyJsPlugin()
+    //load_jqueryLibrary()
+
   ],
   //
   // biar bisa akses lansung lewat root urlnya
@@ -139,6 +141,24 @@ module.exports = {
   },
   // ---
 };
+
+//
+// define UglifyJsPlugin
+//
+
+function load_UglifyJsPlugin(){
+  return new webpack.optimize.UglifyJsPlugin({
+      debug: true,
+      minimize: true,
+      sourceMap: false,
+      output: {
+        comments: false
+      },
+      compressor: {
+        warnings: false
+      }
+    });
+}
 
 //
 // define jquery 
