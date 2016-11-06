@@ -57,7 +57,7 @@ return [
             'host'      => 'localhost',
             'port'      => '3306',
             'database'  => 'balifoam_apps',
-            'username'  => 'root',
+            'username'  => 'donny',
             'password'  => '43lw9rj2',
             'charset'   => 'utf8',
             'collation' => 'utf8_unicode_ci',
