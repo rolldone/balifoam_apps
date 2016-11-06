@@ -28,6 +28,7 @@ import {
 	totalFetchPresensi,
 	cekExistDataPresensi
 } from '../services/httpServices.jsx';
+import {staticVariable} from '../services/helperServices.jsx';
 
 
 /*
@@ -69,7 +70,7 @@ export class presensi_list extends React.Component{
 
 	exportPresensi(){
 		var vm = this;
-		var win = window.open("http://localhost/balifoam_apps/html/restapi/v1/presensi/export-presensi?tanggal="+dateFormat.formatDate(vm.state.date), '_blank');
+		var win = window.open(staticVariable.url_restapi+"/presensi/export-presensi?tanggal="+dateFormat.formatDate(vm.state.date), '_blank');
   		win.focus();
 	}
 
