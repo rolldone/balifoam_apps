@@ -118,9 +118,9 @@ class PresensiComponent extends ComponentBase
      */
     public function exportPresensi(){
         $tanggal = $_GET['tanggal'];
-        $pre = Db::table('rollproject_balifoamapps_presensi as hh')->where('tanggal',$tanggal)
-            ->join('rollproject_balifoamapps_karyawan as gg',
-                'gg.id','=','hh.pin')
+        $pre = Db::table('rollproject_balifoamapps_karyawan as gg')//->where('hh.tanggal',$tanggal)
+            ->leftJoin('rollproject_balifoamapps_presensi as hh',
+                'hh.pin','=','gg.id')->whereNull('hh.pin')->orWhere('hh.tanggal',$tanggal)
             ->select('gg.nik','gg.id','gg.nama_karyawan','gg.cabang','gg.departemen','hh.jam','hh.tanggal')->get();
         $data = array();
         foreach ($pre as $result) {
