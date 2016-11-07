@@ -3,6 +3,7 @@
 use Cms\Classes\ComponentBase;
 use Excel;
 use Rollproject\BalifoamApps\Models\Karyawan;
+use Db;
 
 
 class KaryawanComponent extends ComponentBase
@@ -46,8 +47,29 @@ class KaryawanComponent extends ComponentBase
                 case "search-karyawan":
                     $this->searchKaryawan($params[2],$params[3]);
                     break;
+                case "export-karyawan":
+                    $this->exportKaryawan();
             }
         }
+    }
+
+    public function exportKaryawan(){
+        $pre = Db::table('rollproject_balifoamapps_karyawan')//->where('hh.tanggal',$tanggal)
+            ->select(DB::raw('id,nik,nik,nama_karyawan AS "Nama Karyawan",alias,cabang,departemen,jabatan,
+                jenis_kelamin as "Jenis Kelamin",rfid,fp9 as "FP 9",fp10 as "FP 10",face,fp_neo as "FP Neo",
+                fp_revo as "FP Revo",privilege,jadwal,tgl_keluar as "Tgl Keluar",status,status_kerja as "Status Kerja",
+                masa_kontrak as "Masa Kontrak",tgl_selesai as "Tgl Selesai", masa_kerja_bln as "Masa Kerja (Bln)",
+                masa_kerja_thn as "Masa Kerja (Thn)"'))->get();
+        $data = array();
+        foreach ($pre as $result) {
+            $data[] = (array)$result;  
+        }
+        Excel::create('presensi',function($excel) use($data){
+            $excel->sheet('Sheet 1',function($sheet) use($data){
+                $sheet->fromArray($data);
+                $sheet->setAutoFilter();
+            });
+        })->export('xls');
     }
 
     public function searchKaryawan($take,$skip){
@@ -107,33 +129,46 @@ class KaryawanComponent extends ComponentBase
                 
                 /**/
                 try{
-                    for($a=1 ; $a < count($excelnya) ; $a++){
-                        $kk = new Karyawan();
+                    for($a=0 ; $a < count($excelnya) ; $a++){
                         $ex = $excelnya[$a];
-                        $kk->id = $ex['pin'];
-                        $kk->nik = $ex['nik'];
-                        $kk->nama_karyawan = $ex['nama_karyawan'];
-                        $kk->alias = $ex['alias'];
-                        $kk->cabang = $ex['cabang'];
-                        $kk->departemen = $ex['departemen'];
-                        $kk->jabatan = $ex['jabatan'];
-                        $kk->jenis_kelamin = $ex['jenis_kelamin'];
-                        $kk->rfid = $ex['rfid'];
-                        $kk->fp9 = $ex['fp_9'];
-                        $kk->fp10 = $ex['fp_10'];
-                        $kk->face = $ex['face'];
-                        $kk->fp_neo = $ex['fp_neo'];
-                        $kk->fp_revo = $ex['fp_revo'];
-                        $kk->privilege = $ex['privilege'];
-                        $kk->jadwal = $ex['jadwal'];
-                        $kk->tgl_keluar = $ex['tgl_keluar'];
-                        $kk->status = $ex['status'];
-                        $kk->status_kerja = $ex['status_kerja'];
-                        $kk->masa_kontrak = $ex['masa_kontrak'];
-                        $kk->tgl_selesai = $ex['tgl_selesai'];
-                        $kk->masa_kerja_bln = $ex['masa_kerja_bln'];
-                        $kk->masa_kerja_thn = $ex['masa_kerja_thn'];
-                        $kk->save();
+                        if($ex['pin'] == null){
+                            // jika ternyata null biasanya space excel 
+                            // dibawah title
+                        }else{
+                            $kk = new Karyawan();
+                            $kk = $kk->where('id','=',$ex['pin'])->get();
+                            if(isset($kk[0])){
+                                $kk = $kk[0];
+                            }else{
+                                $kk = new Karyawan();
+                            }
+                            // nama pin di simpan ke field id table
+                            $kk->id = $ex['pin'];
+                            $kk->nik = $ex['nik'];
+                            $kk->nama_karyawan = $ex['nama_karyawan'];
+                            $kk->alias = $ex['alias'];
+                            $kk->cabang = $ex['cabang'];
+                            $kk->departemen = $ex['departemen'];
+                            $kk->jabatan = $ex['jabatan'];
+                            $kk->jenis_kelamin = $ex['jenis_kelamin'];
+                            $kk->rfid = $ex['rfid'];
+                            $kk->fp9 = $ex['fp_9'];
+                            $kk->fp10 = $ex['fp_10'];
+                            $kk->face = $ex['face'];
+                            $kk->fp_neo = $ex['fp_neo'];
+                            $kk->fp_revo = $ex['fp_revo'];
+                            $kk->privilege = $ex['privilege'];
+                            $kk->jadwal = $ex['jadwal'];
+                            $kk->tgl_keluar = $ex['tgl_keluar'];
+                            $kk->status = $ex['status'];
+                            $kk->status_kerja = $ex['status_kerja'];
+                            $kk->masa_kontrak = $ex['masa_kontrak'];
+                            $kk->tgl_selesai = $ex['tgl_selesai'];
+                            $kk->masa_kerja_bln = $ex['masa_kerja_bln'];
+                            $kk->masa_kerja_thn = $ex['masa_kerja_thn'];
+                            $kk->save();
+                        }
+                        
                     }
                     $jsondata = [
                         'success_place' => 'uploadPresensi()',

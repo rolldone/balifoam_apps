@@ -1,4 +1,5 @@
-
+@hover_color : #16a085;
+@color : #1abc9c;
 
 /*
  * input files custom
@@ -57,60 +58,60 @@
 
 .inputfile-1 + label {
     color: #f1e5e6;
-    background-color: #d3394c;
+    background-color: @color;
 }
 
 .inputfile-1:focus + label,
 .inputfile-1.has-focus + label,
 .inputfile-1 + label:hover {
-    background-color: #722040;
+    background-color: @hover_color;
 }
 
 
 /* style 2 */
 
 .inputfile-2 + label {
-    color: #d3394c;
+    color: @color;
     border: 2px solid currentColor;
 }
 
 .inputfile-2:focus + label,
 .inputfile-2.has-focus + label,
 .inputfile-2 + label:hover {
-    color: #722040;
+    color: @hover_color;
 }
 
 
 /* style 3 */
 
 .inputfile-3 + label {
-    color: #d3394c;
+    color: @color;
 }
 
 .inputfile-3:focus + label,
 .inputfile-3.has-focus + label,
 .inputfile-3 + label:hover {
-    color: #722040;
+    color: @hover_color;
 }
 
 
 /* style 4 */
 
 .inputfile-4 + label {
-    color: #d3394c;
+    color: @color;
 }
 
 .inputfile-4:focus + label,
 .inputfile-4.has-focus + label,
 .inputfile-4 + label:hover {
-    color: #722040;
+    color: @hover_color;
 }
 
 .inputfile-4 + label figure {
     width: 100px;
     height: 100px;
     border-radius: 50%;
-    background-color: #d3394c;
+    background-color: @color;
     display: block;
     padding: 20px;
     margin: 0 auto 10px;
@@ -119,7 +120,7 @@
 .inputfile-4:focus + label figure,
 .inputfile-4.has-focus + label figure,
 .inputfile-4 + label:hover figure {
-    background-color: #722040;
+    background-color: @hover_color;
 }
 
 .inputfile-4 + label svg {
@@ -132,19 +133,19 @@
 /* style 5 */
 
 .inputfile-5 + label {
-    color: #d3394c;
+    color: @color;
 }
 
 .inputfile-5:focus + label,
 .inputfile-5.has-focus + label,
 .inputfile-5 + label:hover {
-    color: #722040;
+    color: @hover_color;
 }
 
 .inputfile-5 + label figure {
     width: 100px;
     height: 135px;
-    background-color: #d3394c;
+    background-color: @color;
     display: block;
     position: relative;
     padding: 30px;
@@ -154,7 +155,7 @@
 .inputfile-5:focus + label figure,
 .inputfile-5.has-focus + label figure,
 .inputfile-5 + label:hover figure {
-    background-color: #722040;
+    background-color: @hover_color;
 }
 
 .inputfile-5 + label figure::before,
@@ -173,14 +174,14 @@
 }
 
 .inputfile-5 + label figure::after {
-    border-bottom: 20px solid #722040;
+    border-bottom: 20px solid @hover_color;
     border-right: 20px solid transparent;
 }
 
 .inputfile-5:focus + label figure::after,
 .inputfile-5.has-focus + label figure::after,
 .inputfile-5 + label:hover figure::after {
-    border-bottom-color: #d3394c;
+    border-bottom-color: @color;
 }
 
 .inputfile-5 + label svg {
@@ -193,11 +194,11 @@
 /* style 6 */
 
 .inputfile-6 + label {
-    color: #d3394c;
+    color: @color;
 }
 
 .inputfile-6 + label {
-    border: 1px solid #d3394c;
+    border: 1px solid @color;
     background-color: #f1e5e6;
     padding: 0;
 }
@@ -205,7 +206,7 @@
 .inputfile-6:focus + label,
 .inputfile-6.has-focus + label,
 .inputfile-6 + label:hover {
-    border-color: #722040;
+    border-color: @hover_color;
 }
 
 .inputfile-6 + label span,
@@ -227,14 +228,14 @@
 .inputfile-6 + label strong {
     height: 100%;
     color: #f1e5e6;
-    background-color: #d3394c;
+    background-color: @color;
     display: inline-block;
 }
 
 .inputfile-6:focus + label strong,
 .inputfile-6.has-focus + label strong,
 .inputfile-6 + label:hover strong {
-    background-color: #722040;
+    background-color: @hover_color;
 }
 
 @media screen and (max-width: 50em) {

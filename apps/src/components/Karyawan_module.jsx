@@ -18,6 +18,10 @@ import {
 } from '../forms/input_box.jsx';
 
 import {
+	Button_box1,
+} from '../forms/custom_box.jsx';
+
+import {
 	ResponseMessage_box1
 } from '../forms/message_box.jsx';
 
@@ -28,6 +32,7 @@ import {
 	fetchDetailKaryawan,
 	searchKaryawan
 } from '../services/httpServices.jsx';
+import {staticVariable} from '../services/helperServices.jsx';
 
 var dateFormat = require('../helpers/date_format.js');
 
@@ -174,7 +179,7 @@ export class karyawan_list extends React.Component{
 									</div>
 								</div>
 								<div>
-									<span>Upload From Excel</span>
+									<span>New Karyawan</span>
 								</div>
 							</button>
 						</Link>
@@ -268,6 +273,14 @@ export class karyawan_form extends React.Component{
 		this.waitingProcess = this.waitingProcess.bind(this);
 		this.responseProcess = this.responseProcess.bind(this);
 		this.backToList = this.backToList.bind(this);
+		this.exportExcelBtn = this.exportExcelBtn.bind(this);
+	}
+
+	exportExcelBtn(){
+		console.log('call exportExcelBtn!');
+		var vm = this;
+		var win = window.open(staticVariable.url_restapi+"/karyawan/export-karyawan", '_blank');
+  		win.focus();
 	}
 
 	uploadFile(){
@@ -329,15 +342,7 @@ export class karyawan_form extends React.Component{
 				</ul>
 				<div className="form_content">
 							<div className="form_pos_form">
-								<div className="full left">
-									<Input_file1 
-										id="inputFileExcel"
-										place_holder="James Bons"
-										title_text="Upload File Excel"
-										is_multiple={false}
-										 />
-								</div>
-								<div className="full left">
+								<div className="full left no_min_height">
 									<ResponseMessage_box1 
 										id="message_response"
 										is_success={this.state.status_response}
@@ -346,6 +351,23 @@ export class karyawan_form extends React.Component{
 										message_text={this.state.message_response_text}
 									/>
 								</div>
+								<div className="left">
+									<Input_file1 
+										id="inputFileExcel"
+										place_holder="James Bons"
+										title_text="Upload Karyawan Baru dari File Excel"
+										is_multiple={false}
+										 />
+								</div>
+								<div className="right">
+									<Button_box1
+										evenClick={vm.exportExcelBtn.bind(vm)}
+										id="downloadKaryawan"
+										disabled_btn={false}
+										title_text="Download Kembali Data Karyawan"
+										name_text="Export Excel"/>
+								</div>
+								
 							</div>
 						</div>
 				<div className="bottom_form">

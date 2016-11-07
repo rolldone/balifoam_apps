@@ -121,14 +121,32 @@ class PresensiComponent extends ComponentBase
         $pre = Db::table('rollproject_balifoamapps_karyawan as gg')//->where('hh.tanggal',$tanggal)
             ->leftJoin('rollproject_balifoamapps_presensi as hh',
                 'hh.pin','=','gg.id')->whereNull('hh.pin')->orWhere('hh.tanggal',$tanggal)
-            ->select('gg.nik','gg.id','gg.nama_karyawan','gg.cabang','gg.departemen','hh.jam','hh.tanggal')->get();
+            ->select(DB::raw('gg.nik,gg.id,gg.nama_karyawan AS "Nama Karyawan",gg.cabang,gg.departemen,hh.jam,hh.tanggal'))
+            ->get();
         $data = array();
         foreach ($pre as $result) {
             $data[] = (array)$result;  
         }
         Excel::create('presensi',function($excel) use($data){
             $excel->sheet('Sheet 1',function($sheet) use($data){
+                $head[] = [
+                    "nik" =>'NIK',
+                    "id" => 'PIN',
+                    "nama_karyawan"=>'Nama Karyawan',
+                    "cabang" => 'Cabang',
+                    "departemen" => 'Departemen',
+                    "jam" => 'Jam Masuk',
+                    "tanggal" => 'Tanggal'
+                ];
+                
+                foreach ($data as $key => $value) {
+                    # code...
+                    
+
+                }
+                //array_merge($head, $data[0]);
                 $sheet->fromArray($data);
+                //$sheet->fromArray($data[0]);
                 $sheet->setAutoFilter();
             });
         })->export('xls');
