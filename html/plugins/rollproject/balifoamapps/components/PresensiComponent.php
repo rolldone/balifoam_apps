@@ -194,7 +194,14 @@ class PresensiComponent extends ComponentBase
                 echo json_encode($jsondata,true);
                 return
                 /**/
-                $excelSelection = $excelnya[0];
+                if(isset($excelnya[0][0])){
+                    // jika ternyata ada lebih dari satu sheet 
+                    $excelSelection = $excelnya[0];
+                }else{
+                    // normalnya sih hanya 1 sheet
+                    $excelSelection = $excelnya;
+                }
+                
                 try{
                     $ex = null;
                     for($a=1 ; $a < count($excelSelection) ; $a++){
