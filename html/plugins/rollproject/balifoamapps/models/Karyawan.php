@@ -24,11 +24,11 @@ class Karyawan extends Model
          * @var array
          */
         'columns' => [
-            'nik' => 10,
+            'nik' => 2,
             'nama_karyawan' => 10,
-            'alias' => 10,
-            'cabang' => 10,
-            'status_kerja' => 10,
+            //'alias' => 10,
+            'cabang' => 2,
+            'status_kerja' => 2,
         ],
         
     ];
