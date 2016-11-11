@@ -1,5 +1,5 @@
 import { computed,autorun, observable } from 'mobx';
-
+import { Karyawan } from './karyawan_store.jsx';
 class Presensi{
 	@observable id
 	@observable pin
@@ -24,7 +24,8 @@ class Presensi{
 		this.mode = value.mode;
 		this.created_at = value.created_at;
 		this.updated_at = value.updated_at;
-		this.karyawannya = value.karyawannya;
+		this.karyawannya = new Karyawan(value);
+
 	}
 }
 

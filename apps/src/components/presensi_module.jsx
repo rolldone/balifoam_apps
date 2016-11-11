@@ -113,6 +113,9 @@ export class presensi_list extends React.Component{
 			data = data.message;
 			vm.props.route.store.presensis = [];
 			for(var a = 0; a < data.length; a++){
+				if(data[a].jam == ""){
+					data[a].jam == "Absen";
+				}
 				vm.props.route.store.savePresensi(data[a]);
 			}
 			vm.setState({listPresensi : vm.props.route.store.presensis});
@@ -229,6 +232,7 @@ export class presensi_list extends React.Component{
 				<table className="table_content">
 					<tbody>
 					  <tr>
+					  	<th>No</th>
 					    <th>NIK</th>
 					    <th>Nama</th>
 					    <th>Jam Masuk</th>
@@ -242,6 +246,7 @@ export class presensi_list extends React.Component{
 						  		var ll = vm.presensi_list[a];
 						  		tt.push(
 					  				<tr key={a} className={a % 2 == 0 ? "data_table":"data_table cloud"}>
+					  					<td>{a+1}</td>
 								    	<td>{ll.karyawannya.nik}</td>
 								    	<td>{ll.karyawannya.nama_karyawan}</td>
 								    	<td>{ll.jam}</td>
@@ -272,7 +277,7 @@ export class presensi_list extends React.Component{
 						}else{ 
 							a = vm.state.paginateState.setNumber - vm.state.paginateState.distance;
 						}
-						for(; a < b; a++){
+						for(; a < b+1; a++){
 						tt.push(
 							<li key={a} onClick={vm.changePagination.bind(vm,a+1)}>
 								<a>

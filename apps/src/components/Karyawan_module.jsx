@@ -198,6 +198,7 @@ export class karyawan_list extends React.Component{
 				<table className="table_content">
 					<tbody>
 					  <tr>
+					    <th>No</th>
 					    <th>NIK</th>
 					    <th>Nama</th>
 					    <th>Alias</th>
@@ -211,6 +212,7 @@ export class karyawan_list extends React.Component{
 						  		var ll = vm.karyawans[a];
 						  		tt.push(
 					  				<tr onClick={vm.openDetailInfo.bind(vm,ll.id)} key={a} className={a % 2 == 0 ? "data_table":"data_table cloud"}>
+								    	<td>{a+1}</td>
 								    	<td>{ll.nik}</td>
 								    	<td>{ll.nama_karyawan}</td>
 								    	<td>{ll.alias}</td>

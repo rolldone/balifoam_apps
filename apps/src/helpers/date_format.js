@@ -18,6 +18,9 @@ export const formatDate = function(date) {
  * convert date jadi format dd-mm-yyy
  */
 export const indoFormatDate = function(date){
+    if(date == null){
+        return "";
+    }
 	var d = new Date(date),
         month = '' + (d.getMonth() + 1),
         day = '' + d.getDate(),

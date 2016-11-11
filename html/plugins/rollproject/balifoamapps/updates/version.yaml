@@ -27,3 +27,6 @@
 1.0.10:
     - 'Updated table rollproject_balifoamapps_loginputpresensi'
     - builder_table_update_rollproject_balifoamapps_loginputpresensi.php
+1.0.11:
+    - 'Created table rollproject_balifoamapps_presensitemp'
+    - builder_table_create_rollproject_balifoamapps_presensitemp.php

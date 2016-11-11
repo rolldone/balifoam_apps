@@ -2,6 +2,7 @@
 
 use Cms\Classes\ComponentBase;
 use Rollproject\BalifoamApps\Models\Presensi;
+use Rollproject\BalifoamApps\Models\PresensiTemp;
 use Excel;
 use Db;
 
@@ -68,8 +69,16 @@ class PresensiComponent extends ComponentBase
         //if(isset($_POST['datenya'])){
             //$datenya = 
        // }
-        $kar = $kar->take($take)->whereDate('tanggal','=',$_POST['datenya'])->skip($take * $skip)->with('karyawannya')
-            ->orderBy('jam','desc')->get();
+        
+        $kar = Db::table('rollproject_balifoamapps_karyawan as gg')//->where('hh.tanggal',$tanggal)
+            ->leftJoin('rollproject_balifoamapps_presensi as hh',
+                'hh.pin','=','gg.id')->where('hh.tanggal',$_POST['datenya'])
+            ->select(DB::raw('gg.id,gg.nik,gg.nama_karyawan,hh.jam,hh.tanggal,gg.cabang,gg.departemen,gg.jabatan'))
+            ->take($take)->skip($take * $skip)->get();//
+        
+        
+        // $kar = $kar->take($take)->whereDate('tanggal','=',$_POST['datenya'])->skip($take * $skip)->with('karyawannya')
+        // ->orderBy('jam','desc')->get();
         $jsondata = [
             'success_place' => 'fetchDataPresensi()',
             'status' => 'success',
@@ -123,10 +132,49 @@ class PresensiComponent extends ComponentBase
                 'hh.pin','=','gg.id')->whereNull('hh.pin')->orWhere('hh.tanggal',$tanggal)
             ->select(DB::raw('gg.nik,gg.id,gg.nama_karyawan AS "Nama Karyawan",gg.cabang,gg.departemen,hh.jam,hh.tanggal'))
             ->get();
+
+        $pre = Db::table('rollproject_balifoamapps_karyawan as gg')//->where('hh.tanggal',$tanggal)
+            ->leftJoin('rollproject_balifoamapps_presensi as hh',
+                'hh.pin','=','gg.id')->orWhere('hh.tanggal',$tanggal)
+            ->select(DB::raw('hh.id,hh.pin,hh.jam,hh.tanggal,hh.sn_mesin,hh.nama_mesin,hh.verifikasi,hh.mode,hh.mode_update'))
+            ->get();
+
+        PresensiTemp::truncate();
+        for($aaa = 0; $aaa < count($pre); $aaa++){
+            $ex = $pre[$aaa];
+            $kk = new PresensiTemp();
+            $kk->id = $ex->id;
+            $kk->pin = $ex->pin;
+            $newDate = $ex->tanggal;//date('Y-m-d', strtotime(str_replace("/","-",$ex['tanggal'])));
+            $kk->tanggal = $newDate;
+            $kk->jam = $ex->jam;
+            $kk->sn_mesin = $ex->sn_mesin;
+            $kk->nama_mesin = $ex->nama_mesin;
+            $kk->verifikasi = $ex->verifikasi;
+            $kk->mode = $ex->mode;
+            $kk->mode_update = $ex->mode_update;
+            $kk->save();
+        }
+        
+        $pre = Db::table('rollproject_balifoamapps_karyawan as gg')//->where('hh.tanggal',$tanggal)
+            ->leftJoin('rollproject_balifoamapps_presensitemp as hh',
+                'hh.pin','=','gg.id')->whereNull('hh.id')->orWhere('hh.tanggal',$tanggal)
+            ->select(DB::raw('gg.id,gg.nik,gg.nama_karyawan,hh.jam,hh.tanggal,gg.cabang,gg.departemen,gg.jabatan'))
+            ->get();//->take($take)->skip($take * $skip)
+        
+
         $data = array();
+        
         foreach ($pre as $result) {
             $data[] = (array)$result;  
         }
+        
+        if($data[0]['tanggal'] == null){
+            // kondisi jika tanggal yang belum di insert data presensi
+            // harus di clearkan kalo tidak kena effect leftJoin  whereNull('hh.pin') itu
+            $data = [];
+        }
+        
         Excel::create('presensi',function($excel) use($data){
             $excel->sheet('Sheet 1',function($sheet) use($data){
                 $head[] = [

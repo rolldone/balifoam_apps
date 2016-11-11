@@ -1,6 +1,6 @@
 import { computed,autorun, observable } from 'mobx';
 
-class Karyawan{
+export class Karyawan{
 	@observable nik
 	@observable id
 	@observable nama_karyawan
