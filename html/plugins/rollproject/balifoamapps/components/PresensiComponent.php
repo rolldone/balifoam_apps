@@ -273,7 +273,11 @@ class PresensiComponent extends ComponentBase
                         $kk->jam = $ex['jam'];
                         $kk->sn_mesin = $ex['sn_mesin'];
                         $kk->nama_mesin = $ex['nama_mesin'];
-                        $kk->verifikasi = $ex['verifikasi'];
+                        if($ex['verifikasi'] != null){
+                            $kk->verifikasi = $ex['verifikasi'];
+                        }else{
+                            $kk->verifikasi = "--";
+                        }
                         $kk->mode = $ex['mode'];
                         $kk->mode_update = $ex['mode_update'];
                         $kk->save();

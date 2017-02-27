@@ -126,7 +126,7 @@ class KaryawanComponent extends ComponentBase
             $uploadFile = $_FILES["file_excel"]['name'];
             Excel::load(realpath($_FILES['file_excel']['tmp_name']),function($reader){
                 $excelnya = $reader->get();
-                
+                Karyawan::truncate();
                 /**/
                 try{
                     for($a=0 ; $a < count($excelnya) ; $a++){
@@ -164,8 +164,17 @@ class KaryawanComponent extends ComponentBase
                             $kk->status_kerja = $ex['status_kerja'];
                             $kk->masa_kontrak = $ex['masa_kontrak'];
                             $kk->tgl_selesai = $ex['tgl_selesai'];
-                            $kk->masa_kerja_bln = $ex['masa_kerja_bln'];
-                            $kk->masa_kerja_thn = $ex['masa_kerja_thn'];
+                            if($ex['masa_kerja_bln'] == null){
+                                $kk->masa_kerja_bln = 0;
+                            }else{
+                                $kk->masa_kerja_bln = $ex['masa_kerja_bln'];
+                            }
+                            if($ex['masa_kerja_thn'] == null){
+                                $kk->masa_kerja_thn = 0;
+                            }else{
+                                $kk->masa_kerja_thn = $ex['masa_kerja_thn'];
+                            }
+                            
                             $kk->save();
                         }
                         
